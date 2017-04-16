@@ -67,6 +67,7 @@ processindex0=[]
 box0=[]
 coordinateindex0=[[]]
 def firstfit(processno,m,ch):
+	root.update()
 	if ch==1:
 		print "process",processno,"request"
 		if hole0 == []:
@@ -140,7 +141,7 @@ def firstfit(processno,m,ch):
 					break
 	print hole0
 	print occupied0		
-
+	time.sleep(1)
 #--------------------------------------------------FIRST_FIT------------------------------------------------------------------------
 #--------------------------------------------------BEST_FIT------------------------------------------------------------------------
 
@@ -152,6 +153,7 @@ processindex1=[]
 box1=[]
 maxi=10000
 def bestfit(processno,m,ch):
+	root.update()
 	if ch==1:
 		print "process",processno,"request"
 		if hole1 == []:
@@ -227,7 +229,7 @@ def bestfit(processno,m,ch):
 					break
 	print hole1
 	print occupied2
-
+	time.sleep(1)
 
 
 
@@ -244,6 +246,7 @@ processindex2=[]
 box2=[]
 mini=0
 def worstfit(processno,m,ch):
+	root.update()
 	if ch==1:
 		print "process",processno,"request"
 		if hole2 == []:
@@ -324,7 +327,7 @@ def worstfit(processno,m,ch):
 
 	print hole2
 	print occupied2
-
+	time.sleep(1)
 
 
 #--------------------------------------------------WORST_FIT------------------------------------------------------------------------
@@ -340,13 +343,14 @@ def create_process ():
 
 def terminate_process ():
 	
+	process=list(set().union(process0,process1,process2))
 	master = Tk()
 	var = StringVar(master)
 	try:
-		var.set(process0[0]) 
+		var.set(process[0]) 
 	except:
 		var.set("NONE")
-	option= apply(OptionMenu, (master, var) + tuple(process0))
+	option= apply(OptionMenu, (master, var) + tuple(process))
 	option.pack()
 	def ok():
 		firstfit(int(var.get()),0,0)
@@ -358,41 +362,13 @@ def terminate_process ():
 	button.pack()
 	
 	master.mainloop()
-'''
-def reset():
-	for j in xrange(NumberOfBlocks):
-		block[j]['alloc']=0
-		block[j]['process']=-1
-		block1[j]['alloc']=0
-		block1[j]['process']=-1
-		block2[j]['alloc']=0
-		block2[j]['process']=-1
-	for j in xrange(len(process)):
-		try:
-			del process[0]
-		except:
-			print "clean"
-		try:
-			del process1[0]
-		except:
-			print "clean"
-		try:
-			del process2[0]
-		except:
-			print "clean"
-		
-	for i in xrange(10):
-		blox[0][i]=Label(label[0],height=50,width=100,bg="red",text="EMPTY")
-		blox[0][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
 
-	for i in xrange(10):
-		blox[1][i]=Label(label[1],height=50,width=100,bg="red",text="EMPTY")
-		blox[1][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
-	
-	for i in xrange(10):
-		blox[2][i]=Label(label[2],height=50,width=100,bg="red",text="EMPTY")
-		blox[2][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
-	
+def reset():
+	process=list(set().union(process0,process1,process2))
+	for i in np.shape(process):
+		firstfit(process[0],0,0)
+		bestfit(process[0],0,0)
+		worstfit(process[0],0,0)
 	log[0]=Label(frame1,bg="black",width=300,height=50)
 	log[0].place(x=5,y=650,height=50,width=290)
 
@@ -401,19 +377,17 @@ def reset():
 
 	log[2]=Label(frame1,bg="black",width=300,height=50)
 	log[2].place(x=605,y=650,height=50,width=290)
-	
-	
-'''	
+
 	
 button0 = Button (frame0, text = "Create Process",bg="blue",fg="white", activebackground="black",activeforeground="white",command = create_process)
 button0.place(x=116,y=100,width=232,height=50)
 
 button1 = Button (frame0, text = "Terminate Process",bg="blue",fg="white", activebackground="black",activeforeground="white",command = terminate_process)
 button1.place(x=116,y=200,width=232,height=50)
-'''
+
 button3 = Button (frame0, text = "Reset",bg="blue",fg="white", activebackground="black",activeforeground="white",command = reset)
 button3.place(x=116,y=400,width=232,height=50)
 
 
-'''
+
 root.mainloop()
