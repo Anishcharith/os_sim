@@ -84,7 +84,7 @@ for i in xrange(10):
 	blox[2][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
 
 a=[1,1,1,0]
-process=[]
+process1=[]
 
 
 def firstfit(processno,m,flag0):
@@ -98,7 +98,7 @@ def firstfit(processno,m,flag0):
 		for j in xrange(NumberOfBlocks):
 			if((block[j]['process']==-1)&(block[j]['mem']>=m)):
 				flag1 = 0
-				process.append(processno)
+				process1.append(processno)
 				block[j]['process']=processno
 				block[j]['alloc']=m
 				blox[0][j].configure(text='')
@@ -123,7 +123,7 @@ def firstfit(processno,m,flag0):
 	else :
 		No=processno	
 		print " Remove process" , No
-		process.remove(No)
+		process1.remove(No)
 		for j in xrange(NumberOfBlocks):	
 			if block[j]['process']==No:		
 				block[j]['process']=-1
@@ -147,7 +147,7 @@ block1=[{'process':-1,'mem':10,'alloc':0},{'process':-1,'mem':20,'alloc':0},{'pr
 {'process':-1,'mem':4,'alloc':0},
 {'process':-1,'mem':6,'alloc':0}]
 
-process1=[]
+process2=[]
 
 def bestfit(processno,m,flag0):
 
@@ -166,7 +166,7 @@ def bestfit(processno,m,flag0):
 				pos=j
 			
 		if flag1==0:
-			process1.append(processno)
+			process2.append(processno)
 			block1[pos]['process']=processno
 			block1[pos]['alloc']=m
 			blox[1][pos].configure(text='')
@@ -192,7 +192,7 @@ def bestfit(processno,m,flag0):
 	else :
 		No=processno	
 		print " Remove process" , No
-		process1.remove(No)
+		process2.remove(No)
 		for j in xrange(NumberOfBlocks):	
 			if block1[j]['process']==No:		
 				block1[j]['process']=-1
@@ -217,7 +217,7 @@ block2=[{'process':-1,'mem':10,'alloc':0},{'process':-1,'mem':20,'alloc':0},{'pr
 {'process':-1,'mem':4,'alloc':0},
 {'process':-1,'mem':6,'alloc':0}]
 
-process2=[]
+process3=[]
 
 def worstfit(processno,m,flag0):
 
@@ -236,7 +236,7 @@ def worstfit(processno,m,flag0):
 				pos=j
 			
 		if flag1==0:
-			process2.append(processno)
+			process3.append(processno)
 			block2[pos]['process']=processno
 			block2[pos]['alloc']=m
 			blox[2][pos].configure(text='')
@@ -262,7 +262,7 @@ def worstfit(processno,m,flag0):
 	else :
 		No=processno	
 		print " Remove process" , No
-		process2.remove(No)
+		process3.remove(No)
 		for j in xrange(NumberOfBlocks):	
 			if block2[j]['process']==No:		
 				block2[j]['process']=-1
@@ -291,6 +291,8 @@ def create_process ():
 
 def terminate_process ():
 	
+	process=list(set().union(process1,process2,process3))
+
 	master = Tk()
 	var = StringVar(master)
 	try:
@@ -353,7 +355,8 @@ def reset():
 	log[2]=Label(frame1,bg="black",width=300,height=50)
 	log[2].place(x=605,y=650,height=50,width=290)
 	
-	
+
+		
 	
 	
 button0 = Button (frame0, text = "Create Process",bg="blue",fg="white", activebackground="black",activeforeground="white",command = create_process)
@@ -366,7 +369,7 @@ button3 = Button (frame0, text = "Reset",bg="blue",fg="white", activebackground=
 button3.place(x=116,y=400,width=232,height=50)
 
 '''
-button2 = Button (frame0, text = "Display Stats",bg="blue",fg="white", activebackground="black",activeforeground="white",command = display)
+button2 = Button (frame0, text = "Resize Blocks",bg="blue",fg="white", activebackground="black",activeforeground="white",command = resize)
 button2.place(x=116,y=300,width=232,height=50)
 '''
 				
