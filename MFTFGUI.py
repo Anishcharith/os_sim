@@ -104,7 +104,7 @@ def firstfit(processno,m,flag0):
 				blox[0][j].configure(text='')
 				box=Label(label[0],height=50,width=100,bg="green",text="PROCESS"+str(processno))
 				box.place(y=j*5+(float(sum(mem[0:j]))/10)*50,height=(float(m)/100)*500,width=100)
-				log[0]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Process "+str(processno)+" Allocated" )
+				log[0]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Internal Fragmentation = "+str(block[j]['mem']-m) )
 				log[0].place(x=5,y=650,height=50,width=290)
 				break
 		if flag1:
@@ -172,7 +172,7 @@ def bestfit(processno,m,flag0):
 			blox[1][pos].configure(text='')
 			box=Label(label[1],height=50,width=100,bg="green",text="PROCESS"+str(processno))
 			box.place(y=pos*5+(float(sum(mem[0:pos]))/10)*50,height=(float(m)/100)*500,width=100)
-			log[1]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Process "+str(processno)+" Allocated" )
+			log[1]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Internal Fragmentation = "+str(block1[pos]['mem']-m)  )
 			log[1].place(x=305,y=650,height=50,width=290)
 			
 
@@ -242,7 +242,7 @@ def worstfit(processno,m,flag0):
 			blox[2][pos].configure(text='')
 			box=Label(label[2],height=50,width=100,bg="green",text="PROCESS"+str(processno))
 			box.place(y=pos*5+(float(sum(mem[0:pos]))/10)*50,height=(float(m)/100)*500,width=100)
-			log[2]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Process "+str(processno)+" Allocated" )
+			log[2]=Label(frame1,bg="black",fg="white",width=300,height=50,text="Internal Fragmentation = "+str(block2[pos]['mem']-m) )
 			log[2].place(x=605,y=650,height=50,width=290)
 			
 
@@ -313,6 +313,7 @@ def terminate_process ():
 	master.mainloop()
 
 def reset():
+	process=list(set().union(process1,process2,process3))
 	for j in xrange(NumberOfBlocks):
 		block[j]['alloc']=0
 		block[j]['process']=-1
@@ -355,10 +356,47 @@ def reset():
 	log[2]=Label(frame1,bg="black",width=300,height=50)
 	log[2].place(x=605,y=650,height=50,width=290)
 	
-
+'''
+def resize():
+	varmem=[]
+	totmem=100
+	block=[]
+	block1=[]
+	block2=[]
+	while True:
+		memblock=1
+		var = tkSimpleDialog.askstring("Memory Block "+str(memblock), "Enter Block requirement")
 		
+		if int(var)<0:
+			varmem.append(totmem)
+			memblock=memblock+1
+			break
+		if (totmem-int(var))<0:
+			w=Message(root,text='cant add more than '+str(totmem)+'amount of memory')
+			w.pack()
+		else:
+			varmem.append(int(var))
+			memblock=memblock+1
+			totmem=totmem-int(var)
 	
+	NumberOfBlocks=memblock
+	for i in xrange(memblock):
+		block.append({'process':-1,'mem':varmem[i],'alloc':0})
+		block1.append({'process':-1,'mem':varmem[i],'alloc':0})
+		block2.append({'process':-1,'mem':varmem[i],'alloc':0})
+		
+	for i in xrange(memblock):
+		blox[0][i]=Label(label[0],height=50,width=100,bg="red",text="EMPTY")
+		blox[0][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
+
+	for i in xrange(memblock):
+		blox[1][i]=Label(label[1],height=50,width=100,bg="red",text="EMPTY")
+		blox[1][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)
 	
+	for i in xrange(memblock):
+		blox[2][i]=Label(label[2],height=50,width=100,bg="red",text="EMPTY")
+		blox[2][i].place(y=i*5+(float(sum(mem[0:i]))/10)*50,height=(float(block[i]['mem'])/100)*500,width=100)	
+'''			
 button0 = Button (frame0, text = "Create Process",bg="blue",fg="white", activebackground="black",activeforeground="white",command = create_process)
 button0.place(x=116,y=100,width=232,height=50)
 	
@@ -374,3 +412,4 @@ button2.place(x=116,y=300,width=232,height=50)
 '''
 				
 root.mainloop()
+from ttk import *
