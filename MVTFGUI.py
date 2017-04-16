@@ -391,3 +391,4 @@ button3.place(x=116,y=400,width=232,height=50)
 
 
 root.mainloop()
+from ttk import *
